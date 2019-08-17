@@ -1,0 +1,78 @@
+CREATE TABLE `company` (
+  `company_code` int(11) NOT NULL AUTO_INCREMENT,
+  `company_Name` varchar(45) DEFAULT NULL,
+  `turnover` decimal(10,0) DEFAULT NULL,
+  `ceo` varchar(45) DEFAULT NULL,
+  `boardofdirectors` varchar(100) DEFAULT NULL,
+  `sector_id` int(11) DEFAULT NULL,
+  `breifwriteup` varchar(200) DEFAULT NULL,
+  `stock_Code` int(11) DEFAULT NULL,
+  PRIMARY KEY (`company_code`),
+  KEY `sector_id` (`sector_id`),
+  CONSTRAINT `company_ibfk_1` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+
+
+CREATE TABLE `ipo_planned` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_code` int(11) DEFAULT NULL,
+  `open_date_time` varchar(50) DEFAULT NULL,
+  `price_per_share` double DEFAULT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
+  `stock_exchange` varchar(255) DEFAULT NULL,
+  `total_no_of_shares` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `company_code_idx` (`company_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+
+
+
+CREATE TABLE `sectors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sector_name` varchar(45) DEFAULT NULL,
+  `brief` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+
+
+
+
+CREATE TABLE `stock_price_details` (
+  `company_code` int(11) NOT NULL,
+  `stock_exchange` int(11) DEFAULT NULL,
+  `current_price` decimal(10,0) DEFAULT NULL,
+  `date` varchar(40) DEFAULT NULL,
+  `time` varchar(15) DEFAULT NULL,
+  KEY `company_code_idx` (`company_code`),
+  KEY `stockexchange_idx` (`stock_exchange`),
+  CONSTRAINT `company_code` FOREIGN KEY (`company_code`) REFERENCES `company` (`company_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `stock_exchange` FOREIGN KEY (`stock_exchange`) REFERENCES `stockexchange` (`stockexchange_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+CREATE TABLE `stockexchange` (
+  `stockexchange_id` int(11) NOT NULL AUTO_INCREMENT,
+  `stockexchange_name` varchar(45) NOT NULL,
+  `brief` varchar(45) DEFAULT NULL,
+  `contactaddress` varchar(45) DEFAULT NULL,
+  `remarks` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`stockexchange_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(45) DEFAULT NULL,
+  `username` varchar(45) DEFAULT NULL,
+  `usertype` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `mobilenumber` varchar(15) DEFAULT NULL,
+  `confirmed` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
